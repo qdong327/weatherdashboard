@@ -1,16 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./styles.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
     <title>Weather Dashboard</title>
 </head>
+
 <body>
-    This is the content.
-
-
-
-<script src="./script.js"></script>
+    <header class="jumbotron">
+        <h1 class="display-4">Weather Dashboard</h1>
+    </header>
+    <div class="row">
+        <nav class="col-3 column-left">
+            <p class="font-weight-bold">Search for a City:</p>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Ex: New York City">
+                <div class="input-group-append">
+                    <button class="btn btn-dark" type="button" id="search-button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="city-buttons">
+                <!-- Insert here when appending in JS -->
+            </div>
+        </nav>
+        <main class="col-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="card-title" id="selected-city">Test City</h5>
+                                <h6 class="card-subtitle mb-2 text-muted" id="selected-state">Test State</h6>
+                                <p class="card-text">
+                                    <span class="info" id="temperature">Temperature: ## °F
+                                        <span id="conversion">
+                                            <button class="btn-outline-secondary">°C</button>
+                                        </span>
+                                    </span>
+                                    <span class="info" id="humidity">Humidity: ##%</span>
+                                    <span class="info" id="wind-speed">Wind Speed: ## MPH</span>
+                                    <span class="info" id="uv-index">UV Index: #.##</span>
+                                </p>
+                        </div>
+                        <div class="col-4" id="today">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3 class="column-right">5-Day Forecast:</h3>
+            <div class="row" id="forecast-card-div">
+                <!-- Insert generated cards here with JS -->
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="./script.js"></script>
 </body>
+
 </html>

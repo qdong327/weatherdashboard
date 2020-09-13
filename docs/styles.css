@@ -1,0 +1,28 @@
+.display-4 {
+    text-align: center;
+    color: white;
+}
+.jumbotron {
+    background-color: rgb(60, 60, 60);
+}
+.column-left {
+    background-color: rgb(240, 240, 240);
+    padding: 30px;
+    height: 50rem;
+}
+
+.column-right {
+    display: inline-block;
+    padding: 30px;
+}
+.info {
+    font-size: 20px;
+    padding: 5px;
+    display: block;
+}
+#today {
+    color: rgb(208, 208, 208);
+    font-size: 30px;
+    text-align: right;
+    font-family: Arial, Helvetica, sans-serif;
+}
