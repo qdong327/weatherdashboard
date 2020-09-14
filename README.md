@@ -1,3 +1,7 @@
-# weatherdashboard
+# Weather Dashboard
 
-A simple weather dashboard application that pulls from server-side API's, using Javascript, jQuery and AJAX.
+A simple weather dashboard application that pulls from multiple server-side API's, using Javascript, jQuery, and local storage. The HTML/CSS files were started from scratch.
+
+Link: 
+
+Screenshot:
