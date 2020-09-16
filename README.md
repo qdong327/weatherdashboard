@@ -4,4 +4,4 @@ A simple weather dashboard application that pulls from multiple server-side API'
 
 Link: https://qdong327.github.io/weatherdashboard/
 
-![Screenshot](assets/screenshot.png)
+![Screenshot](././assets/screenshot.png)
