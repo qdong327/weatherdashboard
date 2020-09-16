@@ -46,7 +46,7 @@ function generateWeatherInfo() {
         currentCity.innerHTML = response.name;
         currentCountry.innerHTML = response.sys.country;
         var currentWeatherIconEl = $("<img>").attr("src", currentWeatherIconUrl);
-        //Stupid icon doesn't work yet
+        //Stupid icon doesn't work yet BUGGIE
         // $('.card-body').appendChild(currentWeatherIconEl);
         currentWeatherIconCode = response.weather[0].icon;
         currentWeatherIconUrl = "https://openweathermap.org/img/w/" + currentWeatherIconCode + ".png";
@@ -62,6 +62,7 @@ function generateWeatherInfo() {
         })
             .then(function (response) {
                 uvIndex.innerHTML = "UV Index: " + response.value;
+                clearUV();
                 if (response.value < 3) {
                     $("#uv-color").addClass("green");
                 } else if (response.value > 2 && response.value < 6) {
@@ -76,7 +77,6 @@ function generateWeatherInfo() {
             });
     })
 }
-
 //Functions to Generate Five Day Forecast as cards
 function displayFiveDayForecast() {
     var fiveDayDiv = $("#forecast-card-div");
@@ -95,7 +95,6 @@ function displayFiveDayForecast() {
     fiveDayDiv.append(cardEl);
     cardEl.append(cardTextDiv);
 }
-
 function generateFiveDayForecast() {
     var cityNameNew = cityName.val().trim();
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -114,7 +113,6 @@ function generateFiveDayForecast() {
         }))
             .then(function (response) {
                 for (var i = 0; i < 5; i++) {
-                    console.log(response.daily[i]);
                     iconCode = response.daily[i].weather[0].icon;
                     iconUrl = "https://openweathermap.org/img/w/" + iconCode + ".png";
                     forecastDate = moment().add(i, "days").format("MMMM DD YYYY");
@@ -129,20 +127,40 @@ function generateFiveDayForecast() {
 }
 //Function to save city to local storage and as button
 function saveCityAndButtonToLocal() {
-
+    for (var i = 0; i < citySearchedArray.length; i++) {
+    var newButton = $("<button>");
+    newButton.addClass("btn btn-light");
+    newButton.text(citySearchedArray[i]);
+    $(".city-buttons").append(newButton);
+}
 };
-
-
+//Functions to clear previously created
+function clearDisplay() {
+    $("#forecast-card-div").empty();
+}
+function clearUV() {
+    $("#uv-color").removeClass();
+}
 //Display Today
 getToday.innerHTML = momentToday;
-
+//On load, hide empty divs
+$(document).ready(function () {
+    $(".card-body").hide();
+    $(".column-right").hide();
+});
 // On clicking search button
 $(document).on("click", "#search-button", function () {
+    //clearing previous stuff
+    clearDisplay();
+    // unhide divs
+    $(".card-body").show();
+    $(".column-right").show();
     // Generate weather info
     generateWeatherInfo();
     //Call five day forecast
     generateFiveDayForecast();
     // Commit city to local storage as button
+    citySearchedArray.push(cityName.val().trim());
     saveCityAndButtonToLocal();
 }
 );
