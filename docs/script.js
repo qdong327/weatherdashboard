@@ -19,6 +19,7 @@ var iconCode = "";
 var forecastDate = "";
 var forecastTemp = "";
 var forecastHum = "";
+var storedCities = "";
 
 // API Info and Getting From Local Storage
 var APIKey = "c53f64d488e1a3a434d5df4073ee05e5";
@@ -127,11 +128,15 @@ function generateFiveDayForecast() {
 }
 //Function to save city to local storage and as button
 function saveCityAndButtonToLocal() {
+    $(".city-buttons").empty();
     for (var i = 0; i < citySearchedArray.length; i++) {
     var newButton = $("<button>");
-    newButton.addClass("btn btn-light");
+    var newButtonListItem = $("<li>");
+    newButton.addClass("btn btn-dark");
     newButton.text(citySearchedArray[i]);
-    $(".city-buttons").append(newButton);
+    $(".city-buttons").prepend(newButtonListItem);
+    newButtonListItem.prepend(newButton);
+    localStorage.setItem(storedCities, JSON.stringify(citySearchedArray));
 }
 };
 //Functions to clear previously created
@@ -141,12 +146,23 @@ function clearDisplay() {
 function clearUV() {
     $("#uv-color").removeClass();
 }
+//Function to display cities
+function displayCities() {
+    localStorage.getItem(storedCities, JSON.parse(citySearchedArray));
+    console.log(citySearchedArray);
+}
+
 //Display Today
 getToday.innerHTML = momentToday;
 //On load, hide empty divs
 $(document).ready(function () {
     $(".card-body").hide();
     $(".column-right").hide();
+    displayCities(citySearchedArray);
+    if (getCitiesFromLocal !== null) {
+        var last = citySearchedArray[0];
+        generateWeatherInfo(last);
+    }
 });
 // On clicking search button
 $(document).on("click", "#search-button", function () {
@@ -160,7 +176,14 @@ $(document).on("click", "#search-button", function () {
     //Call five day forecast
     generateFiveDayForecast();
     // Commit city to local storage as button
-    citySearchedArray.push(cityName.val().trim());
+    citySearchedArray.push(cityName.val().trim().toUpperCase());
     saveCityAndButtonToLocal();
 }
 );
+//On clicking created buttons
+$(document).on("click", ".city-buttons", function () {
+    clearDisplay();
+    clearUV();
+    var clickCity = $(this).text();
+    generateWeatherInfo(clickCity);
+})

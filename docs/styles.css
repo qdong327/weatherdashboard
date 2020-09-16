@@ -70,7 +70,12 @@
     padding-top: 20px;
 }
 .new-button {
-    width: auto;
-    display: block
-    ;
+    display: block;
+    padding: 15px;
+}
+ul {
+    list-style-type: none;
+}
+li {
+margin: 0.5em;
 }

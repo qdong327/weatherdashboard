@@ -19,16 +19,16 @@
         <nav class="col-3 column-left">
             <p class="font-weight-bold">Search for a City:</p>
             <div class="input-group">
-                <input type="text" id="user-input" placeholder="Ex: Boston">
+                <input type="text" id="user-input" onfocus="this.value=''" placeholder="Ex: Boston">
                 <div class="input-group-append">
                     <button class="btn btn-dark" type="button" id="search-button">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
             </div>
-            <div class="city-buttons">
+            <ul class="city-buttons">
                 <!-- Append here when in JS -->
-            </div>
+            </ul>
         </nav>
         <main class="col-9">
             <div class="card">
