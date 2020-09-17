@@ -180,7 +180,7 @@ $(document).on("click", "#search-button", function () {
     saveCityAndButtonToLocal();
 }
 );
-//On clicking created buttons
+//On clicking created buttons (not fully working)
 $(document).on("click", ".city-buttons", function () {
     clearDisplay();
     clearUV();
