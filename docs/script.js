@@ -20,10 +20,21 @@ var forecastDate = "";
 var forecastTemp = "";
 var forecastHum = "";
 var storedCities = "";
+    // {"first": "",
+    // "second": "",
+    // "third": "",
+    // "fourth": "",
+    // "fifth": "",
+    // "sixth": "",
+    // "seventh": "",
+    // "eighth": "",
+    // "ninth": "",
+    // "tenth": ""};
 
-// API Info and Getting From Local Storage
+// API Info
 var APIKey = "c53f64d488e1a3a434d5df4073ee05e5";
-var getCitiesFromLocal = JSON.parse(localStorage.getItem("searched-cities"));
+// Getting From Local Storage
+var getCitiesFromLocal = JSON.parse(localStorage.getItem("citySearchedArray"));
 if (getCitiesFromLocal !== null) {
     getCitiesFromLocal.forEach(function (city) {
         city.toUpperCase();
@@ -46,8 +57,8 @@ function generateWeatherInfo() {
         console.log(queryURL);
         currentCity.innerHTML = response.name;
         currentCountry.innerHTML = response.sys.country;
-        var currentWeatherIconEl = $("<img>").attr("src", currentWeatherIconUrl);
         //Stupid icon doesn't work yet BUGGIE
+        var currentWeatherIconEl = $("<img>").attr("src", currentWeatherIconUrl);
         // $('.card-body').appendChild(currentWeatherIconEl);
         currentWeatherIconCode = response.weather[0].icon;
         currentWeatherIconUrl = "https://openweathermap.org/img/w/" + currentWeatherIconCode + ".png";
@@ -136,7 +147,7 @@ function saveCityAndButtonToLocal() {
     newButton.text(citySearchedArray[i]);
     $(".city-buttons").prepend(newButtonListItem);
     newButtonListItem.prepend(newButton);
-    localStorage.setItem(storedCities, JSON.stringify(citySearchedArray));
+    localStorage.setItem("citySearchedArray", JSON.stringify(citySearchedArray));
 }
 };
 //Functions to clear previously created
@@ -148,7 +159,7 @@ function clearUV() {
 }
 //Function to display cities
 function displayCities() {
-    localStorage.getItem(storedCities, JSON.parse(citySearchedArray));
+    localStorage.getItem("citySearchedArray", JSON.parse(citySearchedArray));
     console.log(citySearchedArray);
 }
 
@@ -160,7 +171,8 @@ $(document).ready(function () {
     $(".column-right").hide();
     displayCities(citySearchedArray);
     if (getCitiesFromLocal !== null) {
-        var last = citySearchedArray[0];
+        var last = citySearchedArray;
+        console.log(citySearchedArray);
         generateWeatherInfo(last);
     }
 });
@@ -185,5 +197,6 @@ $(document).on("click", ".city-buttons", function () {
     clearDisplay();
     clearUV();
     var clickCity = $(this).text();
+    console.log(clickCity);
     generateWeatherInfo(clickCity);
 })
