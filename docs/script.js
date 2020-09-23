@@ -20,33 +20,35 @@ var forecastDate = "";
 var forecastTemp = "";
 var forecastHum = "";
 var storedCities = "";
-    // {"first": "",
-    // "second": "",
-    // "third": "",
-    // "fourth": "",
-    // "fifth": "",
-    // "sixth": "",
-    // "seventh": "",
-    // "eighth": "",
-    // "ninth": "",
-    // "tenth": ""};
+// {"first": "",
+// "second": "",
+// "third": "",
+// "fourth": "",
+// "fifth": "",
+// "sixth": "",
+// "seventh": "",
+// "eighth": "",
+// "ninth": "",
+// "tenth": ""};
 
 // API Info
 var APIKey = "c53f64d488e1a3a434d5df4073ee05e5";
 // Getting From Local Storage
-var getCitiesFromLocal = JSON.parse(localStorage.getItem("citySearchedArray"));
-if (getCitiesFromLocal !== null) {
-    getCitiesFromLocal.forEach(function (city) {
-        city.toUpperCase();
-    });
-    citySearchedArray = getCitiesFromLocal;
+// var getCitiesFromLocal = JSON.parse(localStorage.getItem("citySearchedArray"));
+// if (getCitiesFromLocal !== null) {
+//     getCitiesFromLocal.forEach(function (city) {
+//         city.toUpperCase();
+//     });
+//     citySearchedArray = getCitiesFromLocal;
+// }
+if (localStorage.getItem("citySearchedArray") !== null) {
+    var citySearchedArray = JSON.parse(localStorage.getItem("citySearchedArray"));
 }
-
 // ----- Functions ----- //
 
 //Function to Generate Weather Information
-function generateWeatherInfo() {
-    var cityNameValue = cityName.val().trim();
+function generateWeatherInfo(cityNameValue) {
+    // var cityNameValue = cityName.val().trim();
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" +
         cityNameValue + "&appid=" + APIKey;
     //  AJAX call to the OpenWeatherAPI
@@ -54,7 +56,6 @@ function generateWeatherInfo() {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(queryURL);
         currentCity.innerHTML = response.name;
         currentCountry.innerHTML = response.sys.country;
         //Stupid icon doesn't work yet BUGGIE
@@ -107,8 +108,8 @@ function displayFiveDayForecast() {
     fiveDayDiv.append(cardEl);
     cardEl.append(cardTextDiv);
 }
-function generateFiveDayForecast() {
-    var cityNameNew = cityName.val().trim();
+function generateFiveDayForecast(cityNameNew) {
+    // var cityNameNew = cityName.val().trim();
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" +
         cityNameNew + "&appid=" + APIKey;
     //  AJAX call to the OpenWeatherAPI Forecast Info
@@ -141,14 +142,14 @@ function generateFiveDayForecast() {
 function saveCityAndButtonToLocal() {
     $(".city-buttons").empty();
     for (var i = 0; i < citySearchedArray.length; i++) {
-    var newButton = $("<button>");
-    var newButtonListItem = $("<li>");
-    newButton.addClass("btn btn-dark");
-    newButton.text(citySearchedArray[i]);
-    $(".city-buttons").prepend(newButtonListItem);
-    newButtonListItem.prepend(newButton);
-    localStorage.setItem("citySearchedArray", JSON.stringify(citySearchedArray));
-}
+        var newButton = $("<button>");
+        var newButtonListItem = $("<li>");
+        newButton.addClass("btn btn-dark list-button");
+        newButton.text(citySearchedArray[i]);
+        $(".city-buttons").prepend(newButtonListItem);
+        newButtonListItem.prepend(newButton);
+        localStorage.setItem("citySearchedArray", JSON.stringify(citySearchedArray));
+    }
 };
 //Functions to clear previously created
 function clearDisplay() {
@@ -159,44 +160,50 @@ function clearUV() {
 }
 //Function to display cities
 function displayCities() {
-    localStorage.getItem("citySearchedArray", JSON.parse(citySearchedArray));
-    console.log(citySearchedArray);
+    if (localStorage.getItem("citySearchedArray") !== null) {
+        var citySearchedArray = JSON.parse(localStorage.getItem("citySearchedArray"));
+        console.log(citySearchedArray);
+    }
 }
 
 //Display Today
 getToday.innerHTML = momentToday;
 //On load, hide empty divs
 $(document).ready(function () {
-    $(".card-body").hide();
-    $(".column-right").hide();
-    displayCities(citySearchedArray);
-    if (getCitiesFromLocal !== null) {
-        var last = citySearchedArray;
-        console.log(citySearchedArray);
+    displayCities();
+    if (citySearchedArray.length !== 0) {
+        var last = citySearchedArray[citySearchedArray.length-1];
         generateWeatherInfo(last);
+        generateFiveDayForecast(last);
+        saveCityAndButtonToLocal();
+    } else {
+        $(".column-right").hide();
+        $(".card-body").hide();
     }
 });
 // On clicking search button
 $(document).on("click", "#search-button", function () {
+    var cityNameText = cityName.val().trim();
     //clearing previous stuff
     clearDisplay();
     // unhide divs
     $(".card-body").show();
     $(".column-right").show();
     // Generate weather info
-    generateWeatherInfo();
+    generateWeatherInfo(cityNameText);
     //Call five day forecast
-    generateFiveDayForecast();
+    generateFiveDayForecast(cityNameText);
     // Commit city to local storage as button
-    citySearchedArray.push(cityName.val().trim().toUpperCase());
+    citySearchedArray.push(cityNameText.toUpperCase());
     saveCityAndButtonToLocal();
 }
 );
+
 //On clicking created buttons (not fully working)
-$(document).on("click", ".city-buttons", function () {
+$(document).on("click", ".list-button", function () {
+    var clickCity = $(this).text();
     clearDisplay();
     clearUV();
-    var clickCity = $(this).text();
-    console.log(clickCity);
     generateWeatherInfo(clickCity);
+    generateFiveDayForecast(clickCity);
 })
