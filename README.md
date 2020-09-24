@@ -5,5 +5,3 @@ This is a simple weather dashboard application that pulls from multiple server-s
 Link: https://qdong327.github.io/weatherdashboard/
 
 ![Screenshot](Assets/screenshot.png)
-
-Note to Grader: I cannot get the path for the screenshot to work and have tried many variations. The Github Mastering Markdown guide does not have an example of a relative url. I would appreciate a shared example of the correct format. :)
