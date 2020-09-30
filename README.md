@@ -23,15 +23,3 @@ This is a simple weather dashboard application that pulls from multiple server-s
 
 ### License
 * [Link to License](Assets/LICENSE.md)
-
-
-
-
-# Title
-
-## Description 1-2 sentences
-## Deployed Application:
-## Technologies Used
-## Screenshots (2-3)
-## License (MIT) - add in Github to each
-## Collaborators with contact, or Github if applicable.
